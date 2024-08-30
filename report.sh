@@ -32,7 +32,7 @@ cat << EOF
    { "key":"owner","value":"$owner" }
   ],
   "fields": [
-   { "key":"node_rpc","value":"$node_rpc" },
+   { "key":"status","value":"$status" }
    { "key":"docker_status","value":"$docker_status" }
   ]
 }
