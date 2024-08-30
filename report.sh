@@ -32,7 +32,8 @@ cat << EOF
    { "key":"owner","value":"$owner" }
   ],
   "fields": [
-   { "key":"status","value":"$status" }
+   { "key":"status","value":"$status" },
+   { "key":"message","value":"$message" }.
    { "key":"docker_status","value":"$docker_status" }
   ]
 }
