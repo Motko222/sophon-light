@@ -26,10 +26,10 @@ cat << EOF
   "updated":"$(date --utc +%FT%TZ)",
   "measurement":"report",
   "tags": [   
-   { "key":"id","value":"$ID" },
+   { "key":"id","value":"$id" },
    { "key":"machine","value":"$MACHINE" },
    { "key":"grp","value":"$grp" },
-   { "key":"owner","value":"$OWNER" }
+   { "key":"owner","value":"$owner" }
   ],
   "fields": [
    { "key":"node_rpc","value":"$node_rpc" },
