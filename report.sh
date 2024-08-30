@@ -6,7 +6,7 @@ id=$NILLION_ID
 chain=nillion-chain-testnet-1
 network=testnet
 type=node
-group=node
+grp=node
 owner=$OWNER
 
 cd ~/nillion/accuser
@@ -48,6 +48,6 @@ then
   --header "Content-Type: text/plain; charset=utf-8" \
   --header "Accept: application/json" \
   --data-binary "
-    report,id=$id,machine=$MACHINE,grp=$group,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",network=\"$network\" $(date +%s%N) 
+    report,id=$id,machine=$MACHINE,grp=$grp,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",network=\"$network\" $(date +%s%N) 
     "
 fi
