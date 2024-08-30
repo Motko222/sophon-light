@@ -12,7 +12,7 @@ owner=$OWNER
 cd ~/nillion/accuser
 
 container=$(docker ps | grep nillion | awk '{print $NF}')
-docker_status=$(docker inspect $container | jq -r .[].State.Status)
+[ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 
 version=?
 
