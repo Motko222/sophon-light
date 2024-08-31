@@ -13,11 +13,13 @@ cd ~/nillion/accuser
 
 container=$(docker ps | grep nillion | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
+last_challenge=$(docker logs $container | grep -a "Challenges sent to chain" | awk '{print $1}' | tail -1 | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
+last_challenge_sec=$(( $(date +%s) - $(date -d $last_challenge +%s) ))
 
 version=?
 
 case $docker_status in
-  running) status=ok ;;
+  running) status=ok; message="last=$last_challenge_sec" ;;
   *) status="error"; message="docker not running" ;;
 esac
 
