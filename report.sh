@@ -35,8 +35,9 @@ cat << EOF
   ],
   "fields": [
    { "key":"status","value":"$status" },
-   { "key":"message","value":"$message" }.
-   { "key":"docker_status","value":"$docker_status" }
+   { "key":"message","value":"$message" },
+   { "key":"docker_status","value":"$docker_status" },
+   { "key":"last_challenge_sec","value":"$last_challenge_sec" }
   ]
 }
 EOF
