@@ -1,4 +1,3 @@
-  GNU nano 6.2                                                                          /root/scripts/nillion/start.sh                                                                                    
 #!/bin/bash
 
 rpc=https://nillion-testnet-rpc.polkachu.com
