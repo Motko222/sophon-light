@@ -15,7 +15,7 @@ container=$(docker ps | grep nillion | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 last_challenge=$(docker logs $container | grep -a "Challenges sent to chain" | awk '{print $1}' | tail -1 | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
 last_challenge_sec=$(( $(date +%s) - $(date -d $last_challenge +%s) ))
-local_height=$(docker logs $container | grep -a "Sent block @ height" | awk '{print $NF}')
+local_height=$(docker logs $container | grep -a "Sent block @ height" | tail -1 | awk '{print $NF}')
 
 version=?
 
