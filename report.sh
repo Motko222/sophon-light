@@ -23,7 +23,7 @@ version=?
 
 case $docker_status$is_accusing in
   running1) status=ok; message="last=$last_challenge_sec sent=$sent" ;;
-  running0) status=warning; message="not accusing" ;;
+  running0) status=warning; message="not accusing height=$local_height" ;;
   *) status="error"; message="docker not running" ;;
 esac
 
