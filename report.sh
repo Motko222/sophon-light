@@ -20,7 +20,7 @@ is_accusing=$(docker logs $container | grep accusing | tail -1 | grep -c "Accuse
 
 version=?
 
-case $docker_status$is_acusing in
+case $docker_status$is_accusing in
   running1) status=ok; message="last=$last_challenge_sec" ;;
   running0) status=warning; message="not accusing" ;;
   *) status="error"; message="docker not running" ;;
