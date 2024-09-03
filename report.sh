@@ -59,6 +59,6 @@ then
   --header "Content-Type: text/plain; charset=utf-8" \
   --header "Accept: application/json" \
   --data-binary "
-    report,id=$id,machine=$MACHINE,grp=$grp,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",network=\"$network\" $(date +%s%N) 
+    report,id=$id,machine=$MACHINE,grp=$grp,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",local_height=\"$local_height\",network=\"$network\" $(date +%s%N) 
     "
 fi
