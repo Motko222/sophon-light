@@ -18,6 +18,7 @@ last_challenge=$(docker logs --tail $tail $container | grep -a "Challenges sent 
 last_challenge_sec="$(( $(date +%s) - $(date -d $last_challenge +%s) ))s"
 local_height=$(docker logs --tail $tail $container | grep -a "Sent block @ height" | tail -1 | awk '{print $NF}')
 is_accusing=$(docker logs --tail $tail $container | grep accusing | tail -1 | grep -c "Accuser IS accusing")
+registered=$(docker logs --tail $tail $container | grep "Registered:" | tail -1 | grep -c "Registered: true")
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
 
 version=?
@@ -45,7 +46,8 @@ cat << EOF
    { "key":"local_height","value":"$local_height" },
    { "key":"last_challenge_sec","value":"$last_challenge_sec" },
    { "key":"sent","value":"$sent" },
-   { "key":"is_accusing","value":"$is_accusing" }
+   { "key":"is_accusing","value":"$is_accusing" },
+   { "key":"registered","value":"$registered" }
   ]
 }
 EOF
