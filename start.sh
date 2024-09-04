@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 cd $folder
 
 rpc=https://nillion-testnet-rpc.polkachu.com
