@@ -2,6 +2,7 @@
 
 rpc=https://nillion-testnet-rpc.polkachu.com
 #rpc=https://testnet-nillion-rpc.lavenderfive.com
+#rpc=https://nillion-testnet.rpc.kjnodes.com
 
 container=$(docker ps -a | grep nillion | awk '{print $NF}')
 docker stop $container
