@@ -3,7 +3,7 @@
 rpc=https://nillion-testnet-rpc.polkachu.com
 #rpc=https://testnet-nillion-rpc.lavenderfive.com
 
-container=$(docker ps | grep nillion | awk '{print $NF}')
+container=$(docker ps -a | grep nillion | awk '{print $NF}')
 docker stop $container
 docker rm $container
 read -p "Block? " block
