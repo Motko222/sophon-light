@@ -3,9 +3,9 @@
 folder=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 cd $folder
 
-rpc=https://nillion-testnet-rpc.polkachu.com
+#rpc=https://nillion-testnet-rpc.polkachu.com
 #rpc=https://testnet-nillion-rpc.lavenderfive.com
-#rpc=https://nillion-testnet.rpc.kjnodes.com
+rpc=https://nillion-testnet.rpc.kjnodes.com
 
 ./stop.sh
 
