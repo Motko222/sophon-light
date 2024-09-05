@@ -1,7 +1,9 @@
 #!/bin/bash
 
-folder=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
-cd $folder
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
+
+cd $path
 
 echo "------------------------"
 cat rpc | nl
@@ -23,6 +25,6 @@ fi
 ./stop.sh
 
 read -p "Block? " block
-docker run -d -v ~/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint $rpc --block-start $block
-container=$(docker ps | grep nillion | awk '{print $NF}')
+docker run -d --name $folder -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint $rpc --block-start $block
+container=$(docker ps | grep $folder | awk '{print $NF}')
 docker logs -n 200 -f $container
