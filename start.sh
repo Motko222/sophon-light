@@ -5,8 +5,8 @@ cd $folder
 
 #rpc=https://nillion-testnet-rpc.polkachu.com
 #rpc=https://testnet-nillion-rpc.lavenderfive.com
-rpc=https://nillion-testnet.rpc.kjnodes.com
-#rpc=http://nillion.testnet.antares.zone:26657
+#rpc=https://nillion-testnet.rpc.kjnodes.com
+rpc=http://nillion.testnet.antares.zone:26657
 
 ./stop.sh
 
