@@ -17,14 +17,9 @@ if [[ $n == ?(-)+([0-9]) ]]
     exit 1
 fi
 
-#rpc=https://nillion-testnet-rpc.polkachu.com
-#rpc=https://testnet-nillion-rpc.lavenderfive.com
-#rpc=https://nillion-testnet.rpc.kjnodes.com
-#rpc=http://nillion.testnet.antares.zone:26657
-
 ./stop.sh
 
 read -p "Block? " block
-docker run -d --name $folder -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint $rpc --block-start $block
+docker run -d --name $folder -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint $rpc --block-start $block
 container=$(docker ps | grep $folder | awk '{print $NF}')
 docker logs -n 200 -f $container
