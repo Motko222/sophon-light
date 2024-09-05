@@ -20,6 +20,7 @@ local_height=$(docker logs --tail $tail $container | grep -a "Sent block @ heigh
 is_accusing=$(docker logs --tail $tail $container | grep accusing | tail -1 | grep -c "Accuser IS accusing")
 registered=$(docker logs --tail $tail $container | grep "Registered:" | tail -1 | grep -c "Registered: true")
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
+rpc=$(ps aux | grep nillion | grep -v grep | awk -F '--rpc-endpoint ' '{print $2}' | awk '{print $1}')
 
 version=?
 
@@ -47,7 +48,8 @@ cat << EOF
    { "key":"last_challenge_sec","value":"$last_challenge_sec" },
    { "key":"sent","value":"$sent" },
    { "key":"is_accusing","value":"$is_accusing" },
-   { "key":"registered","value":"$registered" }
+   { "key":"registered","value":"$registered" },
+   { "key":"rpc","value":"$rpc" }
   ]
 }
 EOF
@@ -61,6 +63,6 @@ then
   --header "Content-Type: text/plain; charset=utf-8" \
   --header "Accept: application/json" \
   --data-binary "
-    report,id=$id,machine=$MACHINE,grp=$grp,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",local_height=\"$local_height\",network=\"$network\" $(date +%s%N) 
+    report,id=$id,machine=$MACHINE,grp=$grp,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",rpc=\"$rpc\",chain=\"$chain\",local_height=\"$local_height\",network=\"$network\" $(date +%s%N) 
     "
 fi
