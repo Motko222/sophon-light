@@ -1,8 +1,10 @@
 #!/bin/bash
 
 source ~/.bash_profile
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{print $NF}')
 
-id=$NILLION_ID
+id=$folder
 chain=nillion-chain-testnet-1
 network=testnet
 type=node
@@ -10,9 +12,9 @@ grp=node
 owner=$OWNER
 tail=100000
 
-cd ~/nillion/accuser
+cd ~/$folder/accuser
 
-container=$(docker ps | grep nillion | awk '{print $NF}')
+container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 last_challenge=$(docker logs --tail $tail $container | grep -a "Challenges sent to chain" | awk '{print $1}' | tail -1 | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
 [ -z $last_challenge ] && last_challenge_sec=never || last_challenge_sec="$(( $(date +%s) - $(date -d $last_challenge +%s) ))s"
@@ -20,7 +22,7 @@ local_height=$(docker logs --tail $tail $container | grep -a "Sent block @ heigh
 is_accusing=$(docker logs --tail $tail $container | grep accusing | tail -1 | grep -c "Accuser IS accusing")
 registered=$(docker logs --tail $tail $container | grep "Registered:" | tail -1 | grep -c "Registered: true")
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
-url=$(ps aux | grep nillion | grep -v grep | awk -F '--rpc-endpoint ' '{print $2}' | awk '{print $1}')
+url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint ' '{print $2}' | awk '{print $1}')
 
 version=?
 
