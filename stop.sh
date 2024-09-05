@@ -8,4 +8,4 @@ container=$(docker ps | grep $folder | awk '{print $NF}')
 docker stop $container
 echo "Removing containers..."
 container=$(docker ps -a | grep $folder | awk '{print $NF}')
-docker rm $container
+docker rm $container 
