@@ -7,7 +7,6 @@ folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{prin
 id=$folder
 chain=nillion-chain-testnet-1
 network=testnet
-type=node
 grp=node
 owner=$OWNER
 tail=100000
