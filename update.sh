@@ -1,3 +1,7 @@
 #!/bin/bash
 
-docker pull nillion/retailtoken-accuser:v1.0.1
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+cd $path
+source config
+
+docker pull nillion/retailtoken-accuser:$VERSION
