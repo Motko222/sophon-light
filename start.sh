@@ -20,6 +20,6 @@ fi
 ./stop.sh
 
 read -p "Block? " block
-docker run -d --name $folder -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint $rpc --block-start $block
+docker run -d --name $folder -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:v2.0.3 accuse --rpc-endpoint $rpc --block-start $block
 container=$(docker ps | grep $folder | awk '{print $NF}')
 docker logs -n 200 -f $container
