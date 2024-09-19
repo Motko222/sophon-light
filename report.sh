@@ -56,10 +56,10 @@ EOF
 cat $json
 
 # send data to influxdb
-tag_count=$(echo $json | jq '.tags | length')
-field_count=$(echo $json | jq '.fields | length')
+tag_count=$(cat $json | jq '.tags | length')
+field_count=$(cat $json | jq '.fields | length')
 
-data=$(echo $json | jq -r '.measurement')","
+data=$(cat $json | jq -r '.measurement')","
 
 for (( i=0; i<$tag_count; i++ ))
 do
@@ -76,10 +76,10 @@ do
  key=$(cat $json | jq .fields | jq -r keys[$i])
  value=$(cat $json | jq .fields | jq -r --arg a $key '.[$a]')
  data=$data$key"=\""$value"\""
- [ $i -lt $(( tag_count - 1 )) ] && data=$data","
+ [ $i -lt $(( field_count - 1 )) ] && data=$data","
 done
 
-echo $data
+data=$data" "$(date +%s%N)
 
 if [ ! -z $INFLUX_HOST ]
 then
