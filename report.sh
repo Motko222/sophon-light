@@ -63,7 +63,7 @@ data=$(echo $json | jq -r '.measurement')","
 
 for (( i=0; i<$tag_count; i++ ))
 do
- key=$(cat $json | jq -r keys[$i])
+ key=$(cat $json | jq .tags | jq -r keys[$i])
  value=$(cat $json | jq .tags | jq -r --arg a $key '.[$a]')
  data=$data$key"="$value
  [ $i -lt $(( tag_count - 1 )) ] && data=$data","
@@ -73,7 +73,7 @@ data=$data" "
 
 for (( i=0; i<$field_count; i++ ))
 do
- key=$(cat $json | jq -r keys[$i])
+ key=$(cat $json | jq .fields | jq -r keys[$i])
  value=$(cat $json | jq .fields | jq -r --arg a $key '.[$a]')
  data=$data$key"=\""$value"\""
  [ $i -lt $(( tag_count - 1 )) ] && data=$data","
