@@ -3,6 +3,7 @@
 source ~/.bash_profile
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{print $NF}')
+json=~/logs/$folder-report
 
 chain=nillion-chain-testnet-1
 network=testnet
@@ -27,7 +28,7 @@ case $docker_status$is_accusing in
   *) status="error"; message="docker not running" ;;
 esac
 
-cat << EOF
+cat >$json << EOF
 {
   "updated":"$(date --utc +%FT%TZ)",
   "measurement":"report",
@@ -50,11 +51,36 @@ cat << EOF
    "version":"$version"
   }
 }
-EOF >~/logs/$folder-report
+EOF
 
-cat ~/logs/$folder-report
+cat $json
 
 # send data to influxdb
+tag_count=$(echo $json | jq '.tags | length')
+field_count=$(echo $json | jq '.fields | length')
+
+data=$(echo $json | jq -r '.measurement')","
+
+for (( i=0; i<$tag_count; i++ ))
+do
+ key=$(cat $json | jq -r keys[$i])
+ value=$(cat $json | jq .tags | jq -r --arg a $key '.[$a]')
+ data=$data$key"="$value
+ [ $i -lt $(( tag_count - 1 )) ] && data=$data","
+done
+
+data=$data" "
+
+for (( i=0; i<$field_count; i++ ))
+do
+ key=$(cat $json | jq -r keys[$i])
+ value=$(cat $json | jq .fields | jq -r --arg a $key '.[$a]')
+ data=$data$key"=\""$value"\""
+ [ $i -lt $(( tag_count - 1 )) ] && data=$data","
+done
+
+echo $data
+
 if [ ! -z $INFLUX_HOST ]
 then
  curl --request POST \
@@ -62,7 +88,5 @@ then
   --header "Authorization: Token $INFLUX_TOKEN" \
   --header "Content-Type: text/plain; charset=utf-8" \
   --header "Accept: application/json" \
-  --data-binary "
-    report,id=$ifolder,machine=$MACHINE,grp=node,owner=$OWNER status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",local_height=\"$local_height\",network=\"$network\" $(date +%s%N) 
-    "
+  --data-binary "$data"
 fi
