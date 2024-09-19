@@ -3,7 +3,7 @@
 source ~/.bash_profile
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{print $NF}')
-json=~/logs/$folder-report
+json=~/logs/report-$folder
 
 chain=nillion-chain-testnet-1
 network=testnet
@@ -68,20 +68,16 @@ do
  key=$(cat $json | jq .tags | jq -r keys[$i])
  value=$(cat $json | jq .tags | jq -r --arg a $key '.[$a]')
  data=$data$key"="$value
- [ $i -lt $(( tag_count - 1 )) ] && data=$data","
+ [ $i -lt $(( tag_count - 1 )) ] && data=$data"," || data=$data" "
 done
-
-data=$data" "
 
 for (( i=0; i<$field_count; i++ ))
 do
  key=$(cat $json | jq .fields | jq -r keys[$i])
  value=$(cat $json | jq .fields | jq -r --arg a $key '.[$a]')
  data=$data$key"=\""$value"\""
- [ $i -lt $(( field_count - 1 )) ] && data=$data","
+ [ $i -lt $(( field_count - 1 )) ] && data=$data"," || data=$data" "$(date +%s%N)
 done
-
-data=$data" "$(date +%s%N)
 
 if [ ! -z $INFLUX_HOST ]
 then
