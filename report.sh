@@ -4,11 +4,8 @@ source ~/.bash_profile
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{print $NF}')
 
-id=$folder
 chain=nillion-chain-testnet-1
 network=testnet
-grp=node
-owner=$OWNER
 tail=100000
 
 cd ~/$folder/accuser
@@ -34,26 +31,28 @@ cat << EOF
 {
   "updated":"$(date --utc +%FT%TZ)",
   "measurement":"report",
-  "tags": [   
-   { "key":"id","value":"$id" },
-   { "key":"machine","value":"$MACHINE" },
-   { "key":"grp","value":"$grp" },
-   { "key":"owner","value":"$owner" }
-  ],
-  "fields": [
-   { "key":"status","value":"$status" },
-   { "key":"message","value":"$message" },
-   { "key":"docker_status","value":"$docker_status" },
-   { "key":"local_height","value":"$local_height" },
-   { "key":"last_challenge_sec","value":"$last_challenge_sec" },
-   { "key":"sent","value":"$sent" },
-   { "key":"is_accusing","value":"$is_accusing" },
-   { "key":"registered","value":"$registered" },
-   { "key":"url","value":"$url" },
-   { "key":"version","value":"$version" }
-  ]
+  "tags": {
+   "id":"$folder",
+   "machine":"$MACHINE",
+   "grp":"node",
+   "owner":"$OWNER"
+  },
+  "fields": {
+   "status":"$status",
+   "message":"$message",
+   "docker_status":"$docker_status",
+   "local_height":"$local_height",
+   "last_challenge_sec":"$last_challenge_sec",
+   "sent":"$sent",
+   "is_accusing":"$is_accusing",
+   "registered":"$registered",
+   "url":"$url",
+   "version":"$version"
+  }
 }
-EOF
+EOF >~/logs/reports/$folder
+
+cat ~/logs/reports/$folder
 
 # send data to influxdb
 if [ ! -z $INFLUX_HOST ]
