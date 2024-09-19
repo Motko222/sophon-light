@@ -50,9 +50,9 @@ cat << EOF
    "version":"$version"
   }
 }
-EOF >~/logs/reports/$folder
+EOF >~/logs/$folder-report
 
-cat ~/logs/reports/$folder
+cat ~/logs/$folder-report
 
 # send data to influxdb
 if [ ! -z $INFLUX_HOST ]
