@@ -48,6 +48,7 @@ cat >$json << EOF
    "last_challenge_sec":"$last_challenge_sec",
    "sent":"$sent",
    "is_accusing":"$is_accusing",
+   "verifying":"$verifying",
    "registered":"$registered",
    "url":"$url",
    "version":"$version"
