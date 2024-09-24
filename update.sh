@@ -4,4 +4,4 @@ path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 cd $path
 source config
 
-docker pull nillion/retailtoken-accuser:$VERSION
+docker pull nillion/verifier:$VERSION
