@@ -7,5 +7,5 @@ source config
 
 cd ~
 mkdir -p ~/$folder/accuser
-docker run -v ~/$folder/accuser:/var/tmp nillion/retailtoken-accuser:$VERSION initialise
+docker run -v ~/$folder/accuser:/var/tmp nillion/verifier:$VERSION initialise
 sudo cat ~/$folder/accuser/credentials.json
