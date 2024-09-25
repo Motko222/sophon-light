@@ -23,9 +23,8 @@ url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint' '{print $
 version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
 address=$(docker logs --tail $tail $container | grep -a "address: " | tail -1 | awk '{print $NF}')
 
-case $docker_status$verifying in
-  running1) status=ok; message="last=$last_challenge, sent=$sent" ;;
-  running0) status=warning; message="not verifying, sent=$sent" ;;
+case $docker_status in
+  running) status=ok; message="last=$last_challenge_sec, sent=$sent, verifying=$verifying" ;;
   *) status="error"; message="docker not running" ;;
 esac
 
