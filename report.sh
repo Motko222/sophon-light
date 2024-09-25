@@ -11,7 +11,7 @@ tail=100000
 
 cd ~/$folder/accuser
 
-container=$(docker ps | grep nillion | awk '{print $NF}')
+container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 last_challenge=$(docker logs --tail $tail $container | grep -a "Challenges sent to chain" | awk '{print $1}' | tail -1 | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
 [ -z $last_challenge ] && last_challenge_sec=never || last_challenge_sec="$(( $(date +%s) - $(date -d $last_challenge +%s) ))s"
@@ -19,8 +19,8 @@ local_height=$(docker logs --tail $tail $container | grep -a "Sent block @ heigh
 is_accusing=$(docker logs --tail $tail $container | grep accusing | tail -1 | grep -c "Accuser IS accusing")
 verifying=$(docker logs --tail $tail $container | grep "Verifying" | tail -1 | grep -c "Verifying: true")
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
-url=$(ps aux | grep nillion | grep -v grep | awk -F '--rpc-endpoint ' '{print $2}' | awk '{print $1}')
-version=$(docker ps -a --no-trunc | grep nillion | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
+#url=$(ps aux | grep nillion | grep -v grep | awk -F '--rpc-endpoint ' '{print $2}' | awk '{print $1}')
+version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
 
 case $docker_status$verifying in
   running1) status=ok; message="sent=$sent" ;;
