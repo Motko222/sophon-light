@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source ~/.bash_profile
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
-folder=$(echo $(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd) | awk -F/ '{print $NF}')
+folder=$(echo $path | awk -F/ '{print $NF}')
 json=~/logs/report-$folder
+source ~/.bash_profile
 
 chain=nillion-chain-testnet-1
 network=testnet
