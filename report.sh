@@ -19,7 +19,7 @@ local_height=$(docker logs --tail $tail $container | grep -a "Sent block @ heigh
 registered=$(docker logs --tail $tail $container | grep -c "Verifier is registered" | tail -1 | wc -l)
 verifying=$(docker logs --tail $tail $container | grep "Verifying" | tail -1 | grep -c "Verifying: true")
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
-url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint' '{print $2}' | awk '{print $1}' | sed '/"""//g')
+url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint' '{print $2}' | awk '{print $1}' | sed '/\"//g')
 version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
 address=$(docker logs --tail $tail $container | grep -a "address: " | tail -1 | awk '{print $NF}')
 
