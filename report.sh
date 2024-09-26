@@ -14,7 +14,7 @@ cd ~/$folder/verifier
 container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 last_challenge=$(docker logs --tail $tail $container | grep -a "Challenge sent to Nilchain" | awk '{print $1}' | tail -1 | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g")
-[ -z $last_challenge ] && last_challenge_sec=never || last_challenge_sec="$(( ( $(date +%s) - $(date -d $last_challenge +%s) ) / ( 60*60 )))h"
+[ -z $last_challenge ] && last_challenge_h=never || last_challenge_h="$(( ( $(date +%s) - $(date -d $last_challenge +%s) ) / ( 60*60 )))h"
 local_height=$(docker logs --tail $tail $container | grep -a "Got block @ height" | tail -1 | awk '{print $NF}')
 registered=$(docker logs --tail $tail $container | grep -a "Verifier is registered" | tail -1 | wc -l)
 verifying=$(docker logs --tail $tail $container | grep -a "Verifying" | tail -1 | grep -c "Verifying: true")
@@ -45,7 +45,7 @@ cat >$json << EOF
    "message":"$message",
    "docker_status":"$docker_status",
    "local_height":"$local_height",
-   "last_challenge_sec":"$last_challenge_sec",
+   "last_challenge_h":"$last_challenge_h",
    "sent":"$sent",
    "verifying":"$verifying",
    "registered":"$registered",
