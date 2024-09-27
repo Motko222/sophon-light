@@ -24,7 +24,7 @@ version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2
 address=$(docker logs --tail $tail $container | grep -a "address: " | tail -1 | awk '{print $NF}')
 
 case $docker_status in
-  running) status=ok; message="last=$last_challenge_sec, sent=$sent, verifying=$verifying" ;;
+  running) status=ok; message="last=$last_challenge_h, sent=$sent, verifying=$verifying" ;;
   *) status="error"; message="docker not running" ;;
 esac
 
