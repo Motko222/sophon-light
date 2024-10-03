@@ -21,7 +21,8 @@ verifying=$(docker logs --tail $tail $container | grep -a "Verifying" | tail -1 
 sent=$(docker logs --tail $tail $container | grep -a "Challenges sent to Nilchain" | tail -1 | awk '{print $NF}')
 url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint' '{print $2}' | awk '{print $1}' | sed 's/\"//g')
 version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
-address=$(docker logs --tail $tail $container | grep -a "address: " | tail -1 | awk '{print $NF}')
+verifier_add=$(docker logs --tail $tail $container | grep -a "Verifier account id:" | tail -1 | awk '{print $NF}')
+registered_to=$(docker logs --tail $tail $container | grep -a "Verifier registered to:" | tail -1 | awk '{print $NF}')
 
 case $docker_status in
   running) status=ok; message="last=$last_challenge_h, sent=$sent, verifying=$verifying" ;;
@@ -47,11 +48,10 @@ cat >$json << EOF
    "local_height":"$local_height",
    "last_challenge_h":"$last_challenge_h",
    "sent":"$sent",
-   "verifying":"$verifying",
-   "registered":"$registered",
+   "registered_to":"$registered_to",
+   "verifier_add":"$verifier_add",
    "url":"$url",
-   "version":"$version",
-   "address":"$address"
+   "version":"$version"
   }
 }
 EOF
