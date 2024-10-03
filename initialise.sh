@@ -9,3 +9,5 @@ cd ~
 mkdir -p ~/$folder/verifier
 docker run -v ~/$folder/verifier:/var/tmp nillion/verifier:$VERSION initialise
 sudo cat ~/$folder/verifier/credentials.json
+
+cp config.sample config
