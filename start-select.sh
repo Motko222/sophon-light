@@ -6,7 +6,12 @@ cd $path
 source config
 
 echo "------------------------"
-cat rpc | nl
+for (( i=1;i<5;i++ ))
+do
+   rpc=$(cat rpc | head -$i | tail -1)
+   printf "%s %-60s %s \n" $i $rpc $(curl -s $rpc/status | jq -r .result.sync_info.latest_block_height)
+done
+
 echo "------------------------"
 read -p "? " n
 
