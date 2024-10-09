@@ -24,7 +24,7 @@ registered_to=$(docker logs --tail $tail $container | grep -a "Verifier register
 
 case $docker_status in
   running) status=ok; message="last=$last_challenge_h, height=$local_height" ;;
-  *) status="warning"; message="docker not running, starting"; cd ~/scripts/$folder; ./start-default.sh ;;
+  *) status="error"; message="docker not running" ;;
 esac
 
 cat >$json << EOF
