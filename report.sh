@@ -21,10 +21,10 @@ url=$(docker ps -a --no-trunc | grep $folder | awk -F '--rpc-endpoint' '{print $
 version=$(docker ps -a --no-trunc | grep $folder | awk -F 'verifier:' '{print $2}' | awk '{print $1}')
 verifier_add=$(docker logs --tail $tail $container | grep -a "Verifier account id:" | tail -1 | awk '{print $NF}')
 registered_to=$(docker logs --tail $tail $container | grep -a "Verifier registered to:" | tail -1 | awk '{print $NF}')
-no_gas=$(docker logs --tail 1000 $container | grep -a "insufficient funds" | tail -1 | awk -F 'insufficient funds: ' '{print $NF}')
+no_gas=$(docker logs --tail 100 $container | grep -a "insufficient funds" | tail -1 | awk -F 'insufficient funds: ' '{print $NF}')
 
 case $docker_status in
-  running) status=ok; message="last=$last_challenge_h, height=$local_height, $no_gas" ;;
+  running) status=ok; message="last=$last_challenge_h height=$local_height $no_gas" ;;
   restarting) status=warning; message="docker is restarting" ;;
   *) status="error"; message="docker not running" ;;
 esac
