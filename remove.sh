@@ -8,8 +8,8 @@ case $sure in y|Y|yes|YES|Yes) ;; *) exit ;; esac
 
 #backup
 [ -d /root/backup/$folder ] || mkdir -p /root/backup/$folder
-cp /root/$folder/credentials.json /root/backup/$folder
-cat /root/$folder/credentials.json
+cp /root/$folder/verifier/credentials.json /root/backup/$folder
+cat /root/$folder/verifier/credentials.json
 read -p "Backup your credentials... Continue? " sure
 case $sure in y|Y|yes|YES|Yes) ;; *) exit ;; esac
 
