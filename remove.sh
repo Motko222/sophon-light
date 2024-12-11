@@ -10,6 +10,7 @@ case $sure in y|Y|yes|YES|Yes) ;; *) exit ;; esac
 [ -d /root/backup/$folder ] || mkdir -p /root/backup/$folder
 cp /root/$folder/verifier/credentials.json /root/backup/$folder
 cat /root/$folder/verifier/credentials.json
+echo
 read -p "Backup your credentials... Continue? " sure
 case $sure in y|Y|yes|YES|Yes) ;; *) exit ;; esac
 
