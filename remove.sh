@@ -30,9 +30,11 @@ docker image rm nillion/retailtoken-accuser:v1.0.1
 
 echo "Deleting folder..."
 rm -r /root/$folder
+echo /root/$folder
 
 echo "Deleting scripts..."
 rm -r /root/scripts/$folder
+echo /root/scripts/$folder
 
 echo "Done..."
 
