@@ -5,17 +5,18 @@ folder=$(echo $path | awk -F/ '{print $NF}')
 cd $path
 source config
 
-if [ -z $RPC ]
-then 
-      rpc=$(cat rpc | head -1 )
-      echo "rpc defaulted to $rpc"
-else
-      rpc=$RPC
-      echo "rpc fetched from config $rpc"
-fi
-
 ./stop.sh
 
-docker run -d --name $folder --restart always -v ~/$folder/verifier:/var/tmp nillion/verifier:$VERSION verify --rpc-endpoint $rpc
+docker run -d --name $folder \
+    -e OPERATOR_ADDRESS=$OPERATOR \
+    -e DESTINATION_ADDRESS=$DESTINATION \
+    -e PERCENTAGE=1.00 \
+    -e PUBLIC_DOMAIN=http://$IP:7007 \
+    -e PORT=7007 \
+    -e AUTO_UPGRADE=true \
+    -p 7007:7007 \
+    --restart unless-stopped \
+    sophonhub/sophon-light-node
+
 container=$(docker ps | grep $folder | awk '{print $NF}')
 docker logs -n 200 -f $container
