@@ -18,7 +18,7 @@ fee=$(echo $status_json | jq -r .nodes[].fee)
 uptime=$(echo $status_json | jq -r .nodes[].uptime)
 
 case $docker_status in
-  running) status=ok; message="." ;;
+  running) status=ok; message="uptime=$uptime" ;;
   restarting) status=warning; message="docker is restarting" ;;
   *) status="error"; message="docker not running" ;;
 esac
