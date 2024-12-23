@@ -11,6 +11,11 @@ network=mainnet
 container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
 status_json=$(curl -X GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR")
+operator=$(echo $status_json | jq -r .nodes[].operator)
+node_status=$(echo $status_json | jq -r .nodes[].status)
+rewards=$(echo $status_json | jq -r .nodes[].rewards)
+fee=$(echo $status_json | jq -r .nodes[].fee)
+uptime=$(echo $status_json | jq -r .nodes[].uptime)
 
 case $docker_status in
   running) status=ok; message="." ;;
@@ -33,7 +38,11 @@ cat >$json << EOF
    "chain":"$chain",
    "status":"$status",
    "message":"$message",
-   "registered":"$registered",
+   "operator":"$operator",
+   "node_status":"$node_status",
+   "rewards":"$rewards",
+   "fee":"$fee",
+   "uptime":"$uptime",
    "version":"$version"
   }
 }
