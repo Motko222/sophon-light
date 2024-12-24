@@ -1,16 +1,19 @@
+  GNU nano 6.2                                                                      /root/scripts/sophon-light-1/report.sh                                                                                
 #!/bin/bash
 
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $path | awk -F/ '{print $NF}')
 json=/root/logs/report-$folder
 source /root/.bash_profile
+cd $path
+source config
 
 chain=?
 network=mainnet
 
 container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
-status_json=$(curl -X GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR")
+status_json=$(curl -sX GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR" | jq )
 operator=$(echo $status_json | jq -r .nodes[].operator)
 node_status=$(echo $status_json | jq -r .nodes[].status)
 rewards=$(echo $status_json | jq -r .nodes[].rewards)
