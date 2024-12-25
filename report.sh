@@ -1,4 +1,3 @@
-  GNU nano 6.2                                                                      /root/scripts/sophon-light-1/report.sh                                                                                
 #!/bin/bash
 
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
@@ -18,8 +17,8 @@ status_json=$(curl -sX GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR
 operator=$(echo $status_json | jq -r .nodes[].operator)
 node_status=$(echo $status_json | jq -r .nodes[].status)
 rewards=$(echo $status_json | jq -r .nodes[].rewards)
-fee=$(echo $status_json | jq -r .nodes[].fee)
-uptime=$(echo $status_json | jq -r .nodes[].uptime)
+fee=$(echo $status_json | jq -r .nodes[].fee)%
+uptime=$(echo $status_json | jq -r .nodes[].uptime)%
 
 case $docker_status in
   running) status=ok; message="uptime=$uptime" ;;
