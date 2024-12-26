@@ -12,9 +12,9 @@ network=mainnet
 
 container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
-version=$(docker logs sophon-light-1 | grep "version:" | awk '{print $NF}')
+version=$(docker logs sophon-light-1 | grep "version:" | tail -1 | awk '{print $NF}')
 status_json=$(curl -sX GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR" | jq )
-operator=$(echo $status_json | jq -r .nodes[].operator)
+operator=$(echo $status_json | jq -r .nodes[].operator) 
 node_status=$(echo $status_json | jq -r .nodes[].status)
 rewards=$(echo $status_json | jq -r .nodes[].rewards)
 fee=$(echo $status_json | jq -r .nodes[].fee)%
