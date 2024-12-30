@@ -18,7 +18,7 @@ operator=$(echo $status_json | jq -r .nodes[].operator)
 node_status=$(echo $status_json | jq -r .nodes[].status)
 rewards=$(echo $status_json | jq -r .nodes[].rewards)
 fee=$(echo $status_json | jq -r .nodes[].fee)%
-uptime=$(echo $status_json | jq -r .nodes[].uptime)%
+uptime=$(echo $status_json | jq -r .nodes[].uptime | cut -d . -f 1 )%
 
 case $docker_status in
   running) status=ok; message="uptime=$uptime" ;;
