@@ -7,7 +7,7 @@ source /root/.bash_profile
 cd $path
 source config
 
-chain=?
+chain=sophon
 network=mainnet
 
 container=$(docker ps | grep $folder | awk '{print $NF}')
