@@ -12,7 +12,7 @@ network=mainnet
 
 container=$(docker ps | grep $folder | awk '{print $NF}')
 [ $container ] && docker_status=$(docker inspect $container | jq -r .[].State.Status)
-version=$(docker logs sophon-light-1 | grep "version" | tail -1 | awk '{print $NF}')
+version=$(docker logs sophon-light-1 | grep "Successfully updated to version" | tail -1 | awk '{print $NF}')
 #version=$VERSION
 status_json=$(curl -sX GET "https://monitor.sophon.xyz/nodes?operators=$OPERATOR" | jq )
 operator=$(echo $status_json | jq -r .nodes[].operator) 
