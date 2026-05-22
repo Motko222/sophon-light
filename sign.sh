@@ -59,7 +59,7 @@ if ! command -v cast &>/dev/null; then
 fi
 
 info "Signing with operator wallet..."
-SIGNED_MESSAGE=$(cast sign --private-key "$PRIVATE_KEY" "$TIMESTAMP" 2>/dev/null) \
+SIGNED_MESSAGE=$(cast wallet sign --private-key "$PRIVATE_KEY" "$TIMESTAMP" 2>/dev/null) \
     || error "Signing failed. Check PRIVATE_KEY in config."
 success "Signed."
 echo ""
