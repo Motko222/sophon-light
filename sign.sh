@@ -12,7 +12,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_FILE="${SCRIPT_DIR}/config"
 
-[[ ! -f "$CONFIG_FILE" ]] && { echo "ERROR: sophon.conf not found at $CONFIG_FILE"; exit 1; }
+[[ ! -f "$CONFIG_FILE" ]] && { echo "ERROR: config not found at $CONFIG_FILE"; exit 1; }
 # shellcheck source=/dev/null
 source "$CONFIG_FILE"
 
@@ -29,9 +29,9 @@ success() { echo -e "${GREEN}[OK]${NC}    $*"; }
 error()   { echo -e "${RED}[ERROR]${NC} $*" >&2; exit 1; }
 
 # ─── Validate ─────────────────────────────────────────────────────────────────
-[[ -z "${PRIVATE_KEY// }" ]]      && error "PRIVATE_KEY is not set in sophon.conf."
-[[ -z "$OPERATOR_ADDRESS" ]]      && error "OPERATOR is not set in sophon.conf."
-[[ -z "$NEW_SERVER_IP" ]]         && error "IP is not set in sophon.conf."
+[[ -z "${PRIVATE_KEY// }" ]]      && error "PRIVATE_KEY is not set in config."
+[[ -z "$OPERATOR_ADDRESS" ]]      && error "OPERATOR is not set in config."
+[[ -z "$NEW_SERVER_IP" ]]         && error "IP is not set in config."
 
 NEW_URL="http://${NEW_SERVER_IP}:${PORT}"
 
@@ -60,7 +60,7 @@ fi
 
 info "Signing with operator wallet..."
 SIGNED_MESSAGE=$(cast sign --private-key "$PRIVATE_KEY" "$TIMESTAMP" 2>/dev/null) \
-    || error "Signing failed. Check PRIVATE_KEY in sophon.conf."
+    || error "Signing failed. Check PRIVATE_KEY in config."
 success "Signed."
 echo ""
 
